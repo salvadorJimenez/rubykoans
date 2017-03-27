@@ -15,10 +15,57 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 class Proxy
   def initialize(target_object)
     @object = target_object
-    # ADD MORE CODE HERE
+    @power = false
+    @messages=[]
+  end
+  # WRITE CODE HERE
+  def channel= number
+    @messages.push(:channel=)
+    @channel=number
   end
 
-  # WRITE CODE HERE
+  def channel
+    @messages.push(:channel) 
+    @channel
+  end
+
+  def power
+    @messages.push(:power) 
+    if @power == :on
+      @power = :off
+    else
+      @power = :on
+    end
+  end
+
+  def on? 
+    @power == :on
+  end
+
+  def messages
+    @messages
+  end
+
+  def called? arg
+   @messages.include? arg
+  end
+
+  def number_of_times_called arg
+    count=0
+    @messages.each { |key| count+= 1 if arg == key }
+    count
+  end
+
+  def upcase!
+    @messages.push(:upcase!)
+    @object.upcase!
+  end
+
+  def split
+    @messages.push(:split)
+    @object.split
+  end
+
 end
 
 # The proxy object should pass the following Koan:
